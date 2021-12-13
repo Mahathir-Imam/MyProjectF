@@ -1,7 +1,11 @@
 package com.example.i_vocabuilder;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
@@ -12,16 +16,37 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabItem;
+import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 public class MainInterface extends AppCompatActivity {
 
-    TextView daily,weekly,monthly,all;
+
+    TabLayout tabLayout;
+    TabItem tabItem1,tabItem2,tabItem3,tabItem4;
     ViewPager viewPager;
-    PagerViewAdapter pagerViewAdapter;
+    PageAdapter pageAdapter;
     FloatingActionButton fab;
+
+
+    //ListView mylistView;
+    //ArrayList<String> myArrayList = new ArrayList<>();
+    //DatabaseReference mRef;
 
 
 
@@ -31,133 +56,49 @@ public class MainInterface extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_interface);
 
-        daily = findViewById(R.id.daily);
-        weekly = findViewById(R.id.weekly);
-        monthly = findViewById(R.id.monthly);
-        all = findViewById(R.id.all);
 
-        viewPager = findViewById(R.id.fragment_container);
 
         fab = findViewById(R.id.fabId);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),AddingWord.class));
-            }
-        });
-
-        pagerViewAdapter = new PagerViewAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(pagerViewAdapter);
-
-        daily.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewPager.setCurrentItem(0);
-            }
-
-        });
-        weekly.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewPager.setCurrentItem(1);
-            }
-        });
-        monthly.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewPager.setCurrentItem(2);
-            }
-        });
-        all.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewPager.setCurrentItem(3);
+                startActivity(new Intent(getApplicationContext(), AddingWord.class));
             }
         });
 
 
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+        tabLayout=(TabLayout) findViewById(R.id.tablayout1);
+        tabItem1=(TabItem)findViewById(R.id.tab1);
+        tabItem2=(TabItem)findViewById(R.id.tab2);
+        tabItem3=(TabItem)findViewById(R.id.tab3);
+        tabItem4=(TabItem)findViewById(R.id.tab4);
+        viewPager=(ViewPager)findViewById(R.id.vpager);
+
+        pageAdapter=new PageAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
+        viewPager.setAdapter(pageAdapter);
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+                if(tab.getPosition()==0 || tab.getPosition()==1 || tab.getPosition()==2 || tab.getPosition()==3)
+                    pageAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
 
             }
 
-
             @Override
-            public void onPageSelected(int position) {
-                onChangeTab(position);
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
+            public void onTabReselected(TabLayout.Tab tab) {
 
             }
         });
-
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        //listen for scroll or page change
     }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private void onChangeTab(int position) {
-
-        if(position==0){
-            daily.setTextSize(25);
-            daily.setTextColor(getColor(R.color.ghost_white));
-
-            weekly.setTextSize(20);
-            weekly.setTextColor(getColor(R.color.ghost_white));
-
-            monthly.setTextSize(20);
-            monthly.setTextColor(getColor(R.color.ghost_white));
-
-            all.setTextSize(20);
-            all.setTextColor(getColor(R.color.ghost_white));
-
-        }
-        if(position==1){
-            daily.setTextSize(20);
-            daily.setTextColor(getColor(R.color.ghost_white));
-
-            weekly.setTextSize(25);
-            weekly.setTextColor(getColor(R.color.ghost_white));
-
-            monthly.setTextSize(20);
-            monthly.setTextColor(getColor(R.color.ghost_white));
-
-            all.setTextSize(20);
-            all.setTextColor(getColor(R.color.ghost_white));
-
-        }
-        if(position==2){
-            daily.setTextSize(20);
-            daily.setTextColor(getColor(R.color.ghost_white));
-
-            weekly.setTextSize(20);
-            weekly.setTextColor(getColor(R.color.ghost_white));
-
-            monthly.setTextSize(25);
-            monthly.setTextColor(getColor(R.color.ghost_white));
-
-            all.setTextSize(20);
-            all.setTextColor(getColor(R.color.ghost_white));
-
-        }
-        if(position==3){
-            daily.setTextSize(20);
-            daily.setTextColor(getColor(R.color.ghost_white));
-
-            weekly.setTextSize(20);
-            weekly.setTextColor(getColor(R.color.ghost_white));
-
-            monthly.setTextSize(20);
-            monthly.setTextColor(getColor(R.color.ghost_white));
-
-            all.setTextSize(25);
-            all.setTextColor(getColor(R.color.ghost_white));
-
-        }
-
-    }
-
 
 }

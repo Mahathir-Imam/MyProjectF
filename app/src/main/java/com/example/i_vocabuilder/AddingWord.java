@@ -2,6 +2,7 @@ package com.example.i_vocabuilder;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -57,6 +58,7 @@ public class AddingWord extends AppCompatActivity {
                 explanation.setText("");
 
                 Toast.makeText(getApplicationContext(),"Value Inserted",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(),MainInterface.class));
 
             }
         });
