@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:layout_marginTop="100dp"
+    android:elevation="8dp"
+    android:background="@color/sky_blue"
+
+    >
+
+
+    <TextView
+        android:id="@+id/user_nameTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Name : Mahathir"
+        android:padding="5dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:id="@+id/user_phoneTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Phone No : 01706530439"
+        android:padding="5dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:id="@+id/user_ageTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Age : 23"
+        android:padding="5dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        />
+
+
+</LinearLayout>

@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -34,13 +36,16 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class MainInterface extends AppCompatActivity {
+public class MainInterface extends AppCompatActivity implements View.OnClickListener{
 
 
     TabLayout tabLayout;
-    TabItem tabItem1,tabItem2,tabItem3,tabItem4;
-    ViewPager viewPager;
-    PageAdapter pageAdapter;
+    ViewPager2 pager2;
+    FragmentAdapter adapter;
+
+    //ColorStateList def;
+    //TextView item1,item2,item3,item4,select;
+
     FloatingActionButton fab;
 
 
@@ -48,13 +53,47 @@ public class MainInterface extends AppCompatActivity {
     //ArrayList<String> myArrayList = new ArrayList<>();
     //DatabaseReference mRef;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_interface);
+
+        tabLayout = findViewById(R.id.tab_layout);
+        pager2 = findViewById(R.id.view_pager2);
+
+        FragmentManager fm = getSupportFragmentManager();
+        adapter = new FragmentAdapter(fm, getLifecycle());
+        pager2.setAdapter(adapter);
+
+        tabLayout.addTab(tabLayout.newTab().setText("Daily"));
+        tabLayout.addTab(tabLayout.newTab().setText("Weekly"));
+        tabLayout.addTab(tabLayout.newTab().setText("Monthly"));
+        tabLayout.addTab(tabLayout.newTab().setText("All"));
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                pager2.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        pager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                tabLayout.selectTab(tabLayout.getTabAt(position));
+            }
+        });
+
 
 
 
@@ -66,39 +105,11 @@ public class MainInterface extends AppCompatActivity {
             }
         });
 
-
-
-        tabLayout=(TabLayout) findViewById(R.id.tablayout1);
-        tabItem1=(TabItem)findViewById(R.id.tab1);
-        tabItem2=(TabItem)findViewById(R.id.tab2);
-        tabItem3=(TabItem)findViewById(R.id.tab3);
-        tabItem4=(TabItem)findViewById(R.id.tab4);
-        viewPager=(ViewPager)findViewById(R.id.vpager);
-
-        pageAdapter=new PageAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
-        viewPager.setAdapter(pageAdapter);
-
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-                if(tab.getPosition()==0 || tab.getPosition()==1 || tab.getPosition()==2 || tab.getPosition()==3)
-                    pageAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        //listen for scroll or page change
     }
 
+
+    @Override
+    public void onClick(View v) {
+
+    }
 }

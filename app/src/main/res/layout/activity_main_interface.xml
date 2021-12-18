@@ -1,85 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:background="@color/ghost_white"
-
-    android:orientation="vertical"
     tools:context=".MainInterface">
 
-
     <com.google.android.material.tabs.TabLayout
+        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tablayout1"
-        android:background="@color/aquamarine"
-        app:tabSelectedTextColor="@color/black"
-        app:tabTextColor="@color/white"
-        app:tabIndicatorColor="@color/black">
+        android:id="@+id/tab_layout"
+        />
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tab1"
-            android:text="daily"/>
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tab2"
-            android:text="weekly"/>
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tab3"
-            android:text="monthly"/>
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tab4"
-            android:text="all"/>
-
-
-
-
-
-    </com.google.android.material.tabs.TabLayout>
-
-    <androidx.viewpager.widget.ViewPager
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/vpager"/>
-
-<include layout="@layout/activity_retrieve_data">
-
-</include>
+        android:layout_below="@+id/tab_layout"
+        />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginLeft="325dp"
-        android:layout_marginBottom="20dp"
+        android:layout_margin="32dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:backgroundTint="@color/purple"
         android:src="@drawable/ic_add"
         android:tint="@color/white"
-        app:maxImageSize="35dp" />
+        app:maxImageSize="35dp"
+        />
 
 
 
-
-
-
-
-
-
-
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</RelativeLayout>
